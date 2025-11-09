@@ -18,18 +18,10 @@ button = Pin(9, Pin.IN, Pin.PULL_UP)
 
 # Lista de apps del menú
 APPS = [
-    {
-        "name": "Frases",
-        "module": "quotes",
-    },
-    {
-        "name": "Reloj",
-        "module": "clock"
-    },
-    {
-        "name": "Dados",
-        "module": "dices"
-    },
+    {"name": "Frases", "module": "quotes"},
+    {"name": "Reloj", "module": "clock"},
+    {"name": "Dados", "module": "dices"},
+    {"name": "MIDI Seq", "module": "midi_seq"},
 ]
 
 # ------------------------
@@ -39,16 +31,10 @@ APPS = [
 
 def draw_menu(selected_idx):
     tft.fill(st7789.BLACK)
-    tft.rect(0, 0, tft.width, tft.height, st7789.WHITE)
+    # 172
+    # tft.rect(0, 35, tft.width, tft.height - 35, st7789.WHITE)
     title = "Launcher"
-    tft.text(
-        font,
-        title,
-        80,
-        50,
-        st7789.CYAN,
-        st7789.BLACK,
-    )
+    tft.text(font, title, 80, 50, st7789.CYAN, st7789.BLACK)
     y = 60 + font.HEIGHT
     for i, app in enumerate(APPS):
         prefix = ">" if i == selected_idx else " "
@@ -111,14 +97,7 @@ def launch_app(module_name):
     else:
         # fallback básico en pantalla si no tiene run()
         tft.fill(st7789.BLACK)
-        tft.text(
-            font,
-            "No run()",
-            10,
-            10,
-            st7789.RED,
-            st7789.BLACK,
-        )
+        tft.text(font, "No run()", 10, 10, st7789.RED, st7789.BLACK)
         time.sleep(1)
 
     # limpieza opcional:
@@ -148,14 +127,7 @@ def main():
         else:
             # long press: lanzar app dinámica
             tft.fill(st7789.BLACK)
-            tft.text(
-                font,
-                "Launching...",
-                10,
-                10,
-                st7789.WHITE,
-                st7789.BLACK,
-            )
+            tft.text(font, "Launching...", 10, 10, st7789.WHITE, st7789.BLACK)
 
             app_info = APPS[selected]
             module_name = app_info["module"]
